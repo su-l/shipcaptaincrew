@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${title}">title</title>
+</head>
+<body>
+    <h3 th:text="${player.name}+', you have '+${scoreboard.get(player.name)}+' points.'"></h3>
+
+    <div th:object="${game}">
+        <p>Ship: <span th:text="*{ship}"></span></p>
+        <p>Captain: <span th:text="*{captain}"></span></p>
+        <p>Crew: <span th:text="*{crew}"></span></p>
+        <p>Cargo: <span th:text="*{cargo}"></span></p>
+
+        <table>
+            <tr>Your current rolls:</tr>
+            <tr>
+                <td th:each="r : *{rolls}" th:text="${r}"></td>
+            </tr>
+        </table>
+
+        <p>Rolls remaining: <span th:text="*{triesToString()}"></span></p>
+    </div>
+
+    <div th:unless="${hasEnded}">
+        <div th:if="${currentPlayer == player}">
+            <a th:href="${'/game?sessionId='+sessionId+'&playerName='+player.name+'&action=roll'}">Roll</a>
+            <div th:if="${game.isShipCaptainCrew()}">
+                <a th:href="${'/game?sessionId='+sessionId+'&playerName='+player.name+'&action=stop'}">Stop Rolling</a>
+            </div>
+        </div>
+        <div th:unless="${currentPlayer == player}">
+            <p>It's <span th:text="${currentPlayer.name}"></span>'s turn now.</p>
+        </div>
+    </div>
+    <div th:if="${hasEnded}">
+        <p>Game is finished. <span th:text="${scoreboard.getWinnerString()}"></span></p>
+        <a th:href="${'/game?sessionId='+sessionId+'&playerName='+player.name+'&action=scoreboard'}">See the scoreboard.</a>
+    </div>
+
+    <br>
+    <a th:href="${'/session?id='+sessionId}">Go back to lobby.</a>
+
+    <p>Scoreboard</p>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Points</th>
+        </tr>
+        <tr th:each="pName : ${scoreboard.getKeys()}">
+            <th th:text="${pName}"></th>
+            <th th:text="${scoreboard.get(pName)}"></th>
+        </tr>
+    </table>
+
+    <br>
+    <a th:href="${'/'}">Go back home.</a>
+</body>
+</html>

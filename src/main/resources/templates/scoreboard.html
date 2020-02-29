@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${title}">title</title>
+</head>
+<body>
+    <p>Game from: <span th:text="${date}"></span></p>
+    <p th:text="${scoreboard.getWinnerString()}"></p>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Points</th>
+        </tr>
+        <tr th:each="pName : ${scoreboard.getKeys()}">
+            <th th:text="${pName}"></th>
+            <th th:text="${scoreboard.get(pName)}"></th>
+        </tr>
+    </table>
+    <br>
+    <a href="/">Go back home.</a>
+</body>
+</html>

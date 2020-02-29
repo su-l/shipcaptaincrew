@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${title}">title</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>State</th>
+            <th>Winner</th>
+        </tr>
+        <tr th:each="s : ${sessions}">
+            <td>
+                <a th:href="${'/session?id='+s.id}"><span th:text="${s.date}"></span></a>
+            </td>
+            <td th:text="${s.getState()}"></td>
+            <td th:text="${s.getScoreboard().getWinnerName()}"></td>
+        </tr>
+    </table>
+
+    <br>
+    <a th:href="${'/'}">Go back home.</a>
+</body>
+</html>

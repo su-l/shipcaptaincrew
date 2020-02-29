@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${title}">title</title>
+</head>
+<body>
+    <h1 th:text="${title}">title</h1>
+
+    <p>Select players for the next game:</p>
+    <form th:method="POST" th:object="${createNewSessionRequest}" th:action="@{/session}">
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Score</th>
+                <th>Select</th>
+            </tr>
+            <tr th:each="player : ${players}">
+                <td th:text="${player.name}"></td>
+                <td th:text="${player.score}"></td>
+                <td><input type="checkbox" th:value="${player.name}" th:field="*{selectedNames}"></td>
+            </tr>
+        </table>
+        <p>Press play to create new session.</p>
+        <input type="submit" value="Play"/>
+    </form>
+
+    <p>Add new players:</p>
+    <form th:method="POST" th:object="${createNewPlayerRequest}">
+        <label>Name:</label>
+        <input type="text" th:field="*{nameInputField}">
+        <input type="submit" value="Add"/>
+    </form>
+
+    <br>
+    <form th:method="GET" action="/action">
+        <input type="submit" name="name" value="Reset"/>
+    </form>
+
+    <br>
+    <a href="/history">See games history.</a>
+
+    <br><br>
+    <a href="/ranking">See best players.</a>
+</body>
+</html>
